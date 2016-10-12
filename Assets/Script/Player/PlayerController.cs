@@ -3,30 +3,69 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+    [SerializeField]
+    BulletPlayer[] bullets;
+
+    [SerializeField]
+    Player player;
 
     [SerializeField]
     float minPosition, maxPosition;
 
-    [Range(1f, 10)]
-    [SerializeField]
-    float speed;
     
-    [SerializeField]
-    Transform player;
-    
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        ControllPlayer();
 
-        player.Translate(new Vector3(Input.GetAxis("Horizontal") * (speed/10),0,0));
+        CheckingShotPlayer();
+    }
 
-        // проверка выхода за границы
-        if (player.position.x < minPosition)
+    private void ControllPlayer()
+    {
+        player.transform.Translate
+            (new Vector3(Input.GetAxis(Tag.HORIZONTAL) * (player.Speed / 10), 0, 0));
+
+        CheckingFlyingBorder();
+    }
+
+    private void CheckingShotPlayer()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            player.position = new Vector3(minPosition, player.position.y, player.position.z);
+            foreach (BulletPlayer bullet in bullets)
+            {
+                if (!bullet.IsFly)
+                {
+                    bullet.Shot(player.transform);
+                    break;
+                }
+            }
         }
-        if (player.position.x > maxPosition)
+    }
+
+    //Проверка вылета за границы доступного
+    private void CheckingFlyingBorder()
+    {
+        if (player.transform.position.x < minPosition)
         {
-            player.position = new Vector3(maxPosition, player.position.y, player.position.z);
+            player.transform.position =
+                new Vector3(minPosition, player.transform.position.y, player.transform.position.z);
+        }
+        if (player.transform.position.x > maxPosition)
+        {
+            player.transform.position =
+                new Vector3(maxPosition, player.transform.position.y, player.transform.position.z);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag.Equals(Tag.BULLET_INVADER) ||
+            collision.gameObject.tag.Equals(Tag.INVADER))
+        {
+            player.Hit(1);
+            if (player.Life <= 0)
+                Destroy(this.gameObject);
         }
     }
 }

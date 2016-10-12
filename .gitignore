@@ -20,8 +20,8 @@ $RECYCLE.BIN/
 # Unity system files
 /Temp/*
 /ProjectSettings/*
-/Elbonus ipa/*
-/Elbonus Simulator ipa/*
+/Space Invaders ipa/*
+/Space Invaders Simulator ipa/*
 /obj/*
 /Library/*
 /Apk/*

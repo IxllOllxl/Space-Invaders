@@ -45,8 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\Config.cs" />
      <Compile Include="Assets\Script\Crutches\AdaptingEventSystemDragThreshold.cs" />
+     <Compile Include="Assets\Script\Defense\Brick.cs" />
+     <Compile Include="Assets\Script\Helper\CustomColor.cs" />
+     <Compile Include="Assets\Script\Helper\Tag.cs" />
+     <Compile Include="Assets\Script\Invaders\Bullet\BulletInvader.cs" />
+     <Compile Include="Assets\Script\Invaders\Invader.cs" />
      <Compile Include="Assets\Script\Invaders\InvadersController.cs" />
+     <Compile Include="Assets\Script\Player\Bullet\BulletPlayer.cs" />
+     <Compile Include="Assets\Script\Player\Player.cs" />
      <Compile Include="Assets\Script\Player\PlayerController.cs" />
      <Compile Include="Assets\Script\UniRx\Examples\Sample01_ObservableWWW.cs" />
      <Compile Include="Assets\Script\UniRx\Examples\Sample02_ObservableTriggers.cs" />

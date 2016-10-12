@@ -1,19 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using UniRx;
+using System.Collections.Generic;
 
 public class InvadersController : MonoBehaviour {
 
-    [Range(0.1f, 10)]
-    [SerializeField]
-    float speed;
+    [Serializable]
+    class FlyingController
+    {
+        [Range(0.1f, 2)]
+        [SerializeField]
+        float speed;
 
-    [SerializeField]
-    float minPosition, maxPosition;
+        public float Speed { get { return speed; } }
 
-    [SerializeField]
-    Transform group;
+        [SerializeField]
+        float minPosition, maxPosition;
 
+        public float MinPosition { get { return minPosition; } }
+        public float MaxPosition { get { return maxPosition; } }
+
+        [SerializeField]
+        Transform group;
+
+        public Transform transform { get { return group; } }
+    }
+    [SerializeField]
+    FlyingController flying;
+    
     void Start()
     {
         MainThreadDispatcher.StartCoroutine(
@@ -21,35 +36,35 @@ public class InvadersController : MonoBehaviour {
               flyToMinPosition() : flyToMaxPosition());
     }
 
+
     IEnumerator flyToMinPosition()
     {
         while (true)
         {
-            if (minPosition > group.position.x)
+            if (flying.MinPosition > flying.transform.position.x)
             {
                 MainThreadDispatcher.StartCoroutine(flyToMaxPosition());
-                group.Translate(Vector3.down / 3);
+                flying.transform.Translate(Vector3.down / 3);
                 break;
             }
-            group.Translate(Vector3.left * Time.deltaTime / (speed));
+            if(Config.IsPlaying)
+                flying.transform.Translate(Vector3.left * Time.deltaTime * (flying.Speed));
             yield return true;
         }
     }
-
     IEnumerator flyToMaxPosition()
     {
-
         while (true)
         {
-            if (maxPosition < group.position.x)
+            if (flying.MaxPosition < flying.transform.position.x)
             {
                 MainThreadDispatcher.StartCoroutine(flyToMinPosition());
-                group.Translate(Vector3.down/3);
+                flying.transform.Translate(Vector3.down/3);
                 break;
             }
-            group.Translate(Vector3.right * Time.deltaTime / (speed));
+            if(Config.IsPlaying)
+                flying.transform.Translate(Vector3.right * Time.deltaTime * (flying.Speed));
             yield return true;
         }
     }
-
 }

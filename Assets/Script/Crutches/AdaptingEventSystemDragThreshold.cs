@@ -2,17 +2,19 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 
+//На телефонах с андроидом версии 5 и выше заедают кнопки управления
+//Этот клас помогает избавится от этой проблемы
 
 public class AdaptingEventSystemDragThreshold : MonoBehaviour
 {
     [SerializeField]
-    private EventSystem eventSystem;
+    EventSystem eventSystem;
     [SerializeField][Range(50,200)]
-    private int referenceDPI = 100;
+    int referenceDPI = 100;
     [SerializeField][Range(6,16)]
-    private float referencePixelDrag = 8f;
+    float referencePixelDrag = 8f;
     [SerializeField]
-    private bool runOnAwake = true;
+    bool runOnAwake = true;
 
     void Awake()
     {
