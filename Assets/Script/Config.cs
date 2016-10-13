@@ -1,6 +1,12 @@
 ﻿using System;
+using UnityEngine;
 
-public class Config
+public class Config : MonoBehaviour 
 {
-    public static bool IsPlaying  = true;
+    public static bool IsPaused = false;
+
+    void Awake()
+    {
+        IsPaused = false;
+    }
 }
